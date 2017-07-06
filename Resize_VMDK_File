@@ -1,0 +1,17 @@
+# Increase size of Virtual File
+As we can not increase the size of .vmdk file so we need to convert it first into .vdi file using VBoxManage.exe file
+
+First Delete the link of .vmdk file from storage tab of Oracle Virtual Box
+--Clone VMDK File to VDI File
+--Open DOS command prompt
+VBoxManage.exe clonemedium –format VDI "C:\Users\sumit\VirtualBox VMs\cloudera-quickstart-vm-5.10.0-0-virtualbox\cloudera-quickstart-vm-5.10.0-0-virtualbox-disk1.vmdk"   
+"C:\Users\sumit\VirtualBox VMs\cloudera-quickstart-vm-5.10.0-0-virtualbox\cloudera-quickstart-vm-5.10.0-0-virtualbox-disk1.vdi"
+
+--Resize VDI File
+
+"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" modifymedium cloudera-quickstart-vm-5.10.0-0-virtualbox-disk1.vdi --resize 100000
+
+Attach .vdi file under storage tab of Oracle Virtual Box
+
+
+
