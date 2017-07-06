@@ -122,7 +122,17 @@ If Any other help is required then follow below link
 https://www.tecmint.com/oracle-database-11g-release-2-installation-in-linux/
 
 
+-- Setting Up TNS File
 
+--TNS Entry
+ORCL =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = quickstart.cloudera)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl.cloudera)
+    )
+  )
 
 
 
