@@ -1,0 +1,128 @@
+## Steps to install RDBMS in UNIX
+Step 1: Install Oracle Dependencies
+
+Use “oracle-rdbms-server-11gR2-preinstall” package offered by “Oracle Public Yum” repository. The Oracle public yum repository provides a free and easiest way to install all the latest Oracle Linux dependencies automatically. To setup yum repository, follow the instructions provided below.
+Use “wget” command to Download appropriate yum configuration file under /etc/yum.repos.d/ directory as root user.
+For RHEL/CentOs 6.x
+# cd /etc/yum.repos.d
+# wget https://public-yum.oracle.com/public-yum-ol6.repo
+
+While importing GPG key, you might get “GPG key retrieval failed” error as shown below. Here, you need to import proper GPG key for your OS release.
+
+Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+GPG key retrieval failed: [Errno 14] Could not open/read file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+
+Download and verify the appropriate Oracle Linux GPG Key that best matches your RHEL/CentOS compatible OS release.
+For RHEL/CentOs 6.x
+# wget https://public-yum.oracle.com/RPM-GPG-KEY-oracle-ol6 -O /etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+
+Step 2: Setting Hostname
+[root@quickstart ~]# vi /etc/sysconfig/network
+--Check the Host Name 
+--Here it is - 
+HOSTNAME=quickstart.cloudera
+
+--Open “/etc/hosts” file and add fully qualified hostname for the server.
+[root@quickstart ~]# vi /etc/hosts
+--Check IP address along with Host Name
+--Here it is - 
+10.0.2.15       quickstart.cloudera     quickstart
+
+Need to restart networking on the server to make sure that changes will be persistent on reboot
+
+[root@quickstart ~]# /etc/init.d/network restart
+
+Step 3: Oracle User Settings
+--You can change the password for the user
+[root@quickstart ~]# passwd cloudera
+Changing password for user cloudera.
+New password:
+BAD PASSWORD: it is based on a dictionary word
+Retype new password:
+passwd: all authentication tokens updated successfully.
+
+Add the entry to file “/etc/security/limits.d/90-nproc.conf” as described below.
+
+[root@quickstart ~]# vi /etc/security/limits.d/90-nproc.conf
+
+# Default limit for number of user's processes to prevent
+# accidental fork bombs.
+# See rhbz #432903 for reasoning.
+*          soft    nproc     1024
+# To this
+* - nproc 16384
+
+Set SELinux to “permissive” mode by editing the file “/etc/selinux/config“.
+
+[root@quickstart ~]# vi /etc/selinux/config
+SELINUX=permissive
+
+Once you’ve made change, don’t forger to restart the server to reflect new changes.
+
+[root@quickstart ~]# reboot
+
+Login as cloudera user and open file “.bash_profile“, which is available on cloudera user’s home directory, 
+make an entries as described below. Make sure you set correct hostname to “ORACLE_HOSTNAME=quickstart.cloudera“.
+
+[cloudera@quickstart ~]# su cloudera
+# Cloudera Settings
+TMP=/tmp; export TMP
+TMPDIR=$TMP; export TMPDIR
+ORACLE_HOSTNAME=quickstart.cloudera; export ORACLE_HOSTNAME
+ORACLE_UNQNAME=DB11G; export ORACLE_UNQNAME
+ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
+ORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_1; export ORACLE_HOME
+ORACLE_SID=ORCL; export ORACLE_SID
+PATH=/usr/sbin:$PATH; export PATH
+PATH=$ORACLE_HOME/bin:$PATH; export PATH
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH export PATH
+
+ 
+allow Cloudera user to access X Server
+[root@quickstart ~]# xhost +
+
+Create respective directory under u01 directory using root user
+[root@quickstart ~]# mkdir /u01/app/oracle
+[root@quickstart ~]# chmod 777 /u01/app/oracle
+[root@quickstart ~]# mkdir /u01/app/oracle/product/11.2.0/dbhome_1
+[root@quickstart ~]# chmod 777 /u01/app/oracle/product/11.2.0/dbhome_1
+
+Step 4: Downloading Oracle Software
+
+Sign-up and Download the Oracle software using the following link.
+http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html
+
+The Oracle package contains 2 zip files which must be first accepted the license agreement before downloading. 
+please download these files for your system architecture somewhere under “/home/cloudera/“.
+
+For Linux x86-x64 Systems
+http://download.oracle.com/otn/linux/oracle11g/R2/linux.x64_11gR2_database_1of2.zip
+http://download.oracle.com/otn/linux/oracle11g/R2/linux.x64_11gR2_database_2of2.zip
+
+Step 5: Oracle Installation
+Now let’s start Oracle installation. First of all need to switch as ‘cloudera’ user to install database.
+
+[root@quickstart ~]$ su cloudera
+
+Extract compressed Oracle database source files to the same directory “/home/cloudera/“.
+
+[cloudera@quickstart ~]$ unzip linux_11gR2_database_1of2.zip
+[cloudera@quickstart ~]$ unzip linux_11gR2_database_2of2.zip
+
+Post unzip source file, directory called database will be created, 
+go to inside the directory and execute below script to start Oracle database installation process.
+
+[cloudera@oracle database]$ cd database
+[cloudera@oracle database]$ ./runInstaller
+
+RunInstaller will call Oracle Universal Installer (OUI), wherein look and feel & steps are the same across all the operating system.
+
+If Any other help is required then follow below link
+https://www.tecmint.com/oracle-database-11g-release-2-installation-in-linux/
+
+
+
+
+
+
