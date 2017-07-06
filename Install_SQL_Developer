@@ -1,0 +1,17 @@
+# Download sql developer from   http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html
+# JDK 1.8 is required for installation of SQL developr
+
+#Install SQL Developer in Unix 64 Bit 
+#Install .rpm file for SQL Developer  using root user from downloaded directory
+#Install .rpm file for JDK 1.8 using root user
+
+[root@quickstart Downloads]# sudo yum install sqldeveloper-4.2.0.17.089.1709-1.noarch.rpm
+[root@quickstart Downloads]# sudo yum install jdk-8u131-linux-x64.rpm
+
+#After installation run sqldeveloper from cloudera user
+[cloudera@quickstart ~]$ sqldeveloper
+
+#If the path for JDK 1.8 is being asked then provide it.
+
+#Setup the sqldeveloper to connect the oracle database
+
