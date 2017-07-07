@@ -1,0 +1,27 @@
+# Shutdown and Startup oracle Database services
+# Connect sqlplus as sysdba
+[cloudera@quickstart ~]$ sqlplus / as sysdba
+SQL> startup
+
+# All services will be starting up
+
+#Shutdown if required
+
+SQL>shutdown immediate
+
+# Check the status of Listner
+[cloudera@quickstart ~]$ lsnrctl status
+
+# Start Listner
+[cloudera@quickstart ~]$ lsnrctl start
+
+# Stop Listner
+[cloudera@quickstart ~]$ lsnrctl stop
+
+--Database Inormation Installed in VM
+
+Service Name=orcl.cloudera
+SID=orcl
+Host Name = quickstart.cloudera:1158
+Port = 1521
+
