@@ -1,0 +1,21 @@
+# To Work with sqoop we need JDBC driver for oracle
+# download ojdbc6.jar and Place into /var/lib/sqoop
+
+# Import through Sqoop table wise
+######## Import Library Transaction Information from Oracle DB into HDFS ###############
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table BOOK_TYPES --target-dir /user/cloudera/sqoop/book_types --m 1
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table BOOKS_MASTER --target-dir /user/cloudera/sqoop/books_master --m 1
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table MEMBERS --target-dir /user/cloudera/sqoop/members --m 1
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table BOOKS_ISSUE_DTLS --target-dir /user/cloudera/sqoop/books_issue_dtls --m 1
+
+####### Import for Free Form Query #######
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query 'SELECT A.*,B.* FROM BOOKS_MASTER A JOIN BOOK_TYPES B ON A.BOOK_TYPE_SRL = B.TYPE_SRL WHERE $CONDITIONS' --split-by A.ISBN_NO --target-dir /user/cloudera/sqoop/book_free_query
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query 'SELECT B.* FROM BOOK_TYPES B WHERE $CONDITIONS' --split-by B.TYPE_SRL --target-dir /user/cloudera/sqoop/book_free_query
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query 'SELECT A.*,B.* FROM BOOKS_MASTER A JOIN BOOK_TYPES B ON A.BOOK_TYPE_SRL = B.TYPE_SRL WHERE $CONDITIONS' --split-by A.BOOK_NAME --target-dir /user/cloudera/sqoop/book_Name_free_query
