@@ -19,3 +19,67 @@ sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.clouder
 sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query 'SELECT B.* FROM BOOK_TYPES B WHERE $CONDITIONS' --split-by B.TYPE_SRL --target-dir /user/cloudera/sqoop/book_free_query
 
 sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query 'SELECT A.*,B.* FROM BOOKS_MASTER A JOIN BOOK_TYPES B ON A.BOOK_TYPE_SRL = B.TYPE_SRL WHERE $CONDITIONS' --split-by A.BOOK_NAME --target-dir /user/cloudera/sqoop/book_Name_free_query
+
+####### Split By Primary Key Integer #####
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query 'SELECT * FROM MEMBERS A WHERE $CONDITIONS' --split-by A.MEMBER_ID --target-dir /user/cloudera/sqoop/member_primary_key_2
+
+####### Split By Primary Key String #####
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS --split-by ADDHAR_NUMBER --target-dir /user/cloudera/sqoop/addhar_dtls_addhar_no_pk
+
+####### Split By Primary Key String with mapper 1 #####
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS --split-by ADDHAR_NUMBER --target-dir /user/cloudera/sqoop/addhar_dtls_addhar_no_pk_m1 -m 1
+
+####### Split By Primary Key String with mapper 6 #####
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS --split-by ADDHAR_NUMBER --target-dir /user/cloudera/sqoop/addhar_dtls_addhar_no_pk_m6 -m 6
+
+####### Split By String Key #####
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query "SELECT * FROM BOOKS_MASTER A WHERE RECORD_ACTIVE = 'Y' AND \$CONDITIONS" --split-by A.BOOK_NAME --target-dir /user/cloudera/sqoop/split_non_primary_key_book_name_active -m 4
+
+#Import with Where Clause along with Split
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --query "SELECT * FROM BOOKS_MASTER A WHERE RECORD_ACTIVE = 'Y' AND \$CONDITIONS" --split-by A.BOOK_NAME --target-dir /user/cloudera/sqoop/split_non_primary_key_book_name_active_1 -Dorg.apache.sqoop.splitter.allow_text_splitter=true -m 4
+
+--Not Working --> -Dorg.apache.sqoop.splitter.allow_text_splitter=true
+
+
+
+####### Boundary Query #########
+--Boundary Query with min and max value of Age Integer
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_age --boundary-query 'SELECT 31,64 FROM ADDHAR_DTLS' --split-by AGE
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_age_custom --boundary-query 'SELECT 40,64 FROM ADDHAR_DTLS' --split-by AGE
+
+--Boundary Query with String Column
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_first_name --boundary-query "SELECT 'AMIT','ASOK' FROM ADDHAR_DTLS" --split-by FIRST_NAME
+
+-- Boundary Query with Split String Column with unmatched values inside column
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_first_name_all --boundary-query "SELECT 'amit','sumit' FROM ADDHAR_DTLS" --split-by FIRST_NAME
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_first_name_all_correct --boundary-query "SELECT 'AMIT','SUMIT' FROM ADDHAR_DTLS" --split-by FIRST_NAME
+
+### Import with more than no of mappers than no of records (Key Is Varchar) ###
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_more_mappers -m 10
+
+
+### Import with more than no of mappers than no of records (Primary Key - String) ###
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_more_mappers -m 5
+
+### Import with more than no of mappers than no of records (Primary Key - Integer) ###
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_more_mappers_int -m 5
+
+### Import with no Primary key in Table ###
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_no_pk
+
+--OP - 17/07/08 22:45:01 ERROR tool.ImportTool: Error during import: No primary key could be found for table ADDHAR_DTLS. Please specify one with --split-by or perform a sequential import with '-m 1'.
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_no_pk -m 1
