@@ -83,3 +83,68 @@ sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.clouder
 --OP - 17/07/08 22:45:01 ERROR tool.ImportTool: Error during import: No primary key could be found for table ADDHAR_DTLS. Please specify one with --split-by or perform a sequential import with '-m 1'.
 
 sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_no_pk -m 1
+
+## Import with Composite Primary Key ###
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table ADDHAR_DTLS  --target-dir /user/cloudera/sqoop/addhar_dtls_composite_pk
+
+--OP -- Divided into four splits but not in equal size
+
+
+## Import with Incremental Load ###
+
+-- 1. Normal Import
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls
+
+-- 2. Incremental Import in Append Mode
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls --incremental append --check-column PATIENT_ID --last-value 106
+
+-- 3. Incremental Import in LastModifed Mode
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls --incremental lastmodified --check-column LAST_MODIFIED_DT --merge-key PATIENT_ID
+
+--OP -- Merge All files into one File
+
+
+##Case II with Incremental Import use Merge for LastModifed import
+
+-- 1. Normal Import
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_1
+
+-- 2. Incremental Import in Append Mode
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_1 --incremental append --check-column PATIENT_ID --last-value 108 -m 2
+
+-- 3. Incremental Import in LastModifed Mode
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_1 --incremental lastmodified --check-column LAST_MODIFIED_DT --merge-key PATIENT_ID -m 6
+
+--OP -- Merge All files into one File
+
+##Case III with Incremental Import use Merge for LastModifed import
+
+-- 1. Normal Import
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_2
+
+-- 2. Incremental Import in Append Mode
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_2 --incremental append --check-column PATIENT_ID --last-value 110 -m 2
+
+-- 3. Incremental Import in LastModifed Mode
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_2 --incremental lastmodified --check-column LAST_MODIFIED_DT --last-value '2017-07-09 12.59.50.0' --merge-key PATIENT_ID -m 6
+
+--OP -- Merge All files into one File
+
+09-JUL-17 12.56.43.000000
+
+--Normal Import
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_3
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_4 -m 5
+
+sqoop import --connect jdbc:oracle:thin:@//quickstart.cloudera:1521/orcl.cloudera --username cloudera -password cloudera --table PATIENT_DTLS  --target-dir /user/cloudera/sqoop/patient_dtls_5 -m 15
