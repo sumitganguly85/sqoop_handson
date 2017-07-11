@@ -1,2 +1,3 @@
 sqoop import --connect jdbc:mysql://quickstart.cloudera/retail_db --username root --password cloudera --table departments -m 1 --hive-import
 sqoop create-hive-table  --connect jdbc:mysql://quickstart.cloudera/retail_db --username root --password cloudera --table order_items  --fields-terminated-by ',';
+sqoop import --connect "jdbc:oracle:thin:@//localhost:1521/orcl.cloudera" --username "cloudera" --password "cloudera" --table "patient_dtls" --columns "PATIENT_ID,PATIENT_NAME,PATIENT_AGE,TSH_LEVEL,LAST_MODIFIED_DT"  --hive-import --fields-terminated-by ',' --hive-database "health_db" -m 1 --verbose;
