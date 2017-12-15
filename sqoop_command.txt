@@ -1,0 +1,125 @@
+Passw0rd
+sa
+
+
+
+sqoop list-databases --connect jdbc:sqlserver://10.128.26.237:1433 --username sa --password Passw0rd
+
+
+sqoop list-databases --connect jdbc:sqlserver://10.49.240.78:1433 --username sa --password abcd1234
+
+
+sqoop create-hive-table  --connect "jdbc:sqlserver://10.128.26.237:1433;database=LogAnalysis" --username sa --password Passw0rd --table ExchangeLog_IIS  --fields-terminated-by ',';
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=LogAnalysis" --username sa --password Passw0rd --table ExchangeLog_IIS --hive-import  --create-hive-table  --hive-table loganalysis.ExchangeLog_IIS --warehouse-dir /user/landing--hive-overwrite 
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=LogAnalysis" --username sa --password Passw0rd --table ExchangeLog_IIS --hive-import --create-hive-table --hive-table loganalysis.exchangelog_iis --warehouse-dir /user/landing --hive-overwrite -m 1;
+
+
+
+Akshay.nadar
+
+scp -i sna-ds-cen-key.pem -r projects/ root@10.157.255.110:/root/projects
+
+
+scp -i sna-sandbox-cen-key.pem -r projects/ root@10.157.255.103:/root/projects
+scp -i non-prod-rnmcen-key .pem -r projects/ root@10.157.255.96:/root/projects
+
+ /usr/hdp/current/sqoop-client/sqljdbc4-2.0.jar
+           /usr/share/java/sqljdbc4-2.0.jar
+
+try now
+un - administrator
+password rjil@1234
+
+Bhushan.Bhise@ril.com
+
+/usr/hdp/current/sqoop-client/lib/sqljdbc4-2.0.jar;
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.96.149:1433;database=dbBusbooking" --username dbuser --password dbuser@149 --table TB_DROP_LOCATION --hive-import  --create-hive-table  --hive-table dbBusbooking.TB_DROP_LOCATION_12345  --warehouse-dir /user/landing--hive-overwrite 
+
+
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD" --username sa --password Passw0rd --table INVOICE_COMPLETE --hive-import --create-hive-table --hive-table cod.invoice_complete --warehouse-dir /user/landing --hive-overwrite ;
+
+
+
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD" --username sa --password Passw0rd --table INVOICE_COMPLETE --hive-import --create-hive-table --hive-table cod.invoice_complete --warehouse-dir /user/landing --hive-overwrite ;
+
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD" --username sa --password Passw0rd --table INVOICE_POD_SAP --hive-import --create-hive-table --hive-table cod.invoice_pod_sap --warehouse-dir /user/landing --hive-overwrite - Dorg.apache.sqoop.splitter.allow_text_splitter=true;
+
+
+sqoop import-all-tables --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD" --username sa --password Passw0rd --hive-import --create-hive-table --hive-database cod --warehouse-dir /user/landing --hive-overwrite --exclude-tables Sales_Data_Bkp,SSR_FUELSHIFTTRANS,PUMP_READING_PLANB -m 1;
+
+
+-rw-r--r-- 1 root root  466359 Dec 11 15:28 sqljdbc4-2.0.jar
+
+
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD" --username sa --password Passw0rd --table INVOICE_POD_SAP --warehouse-dir /user/landing --hive-overwrite -m 1;
+
+
+--hive-import --create-hive-table --hive-table cod.invoice_complete
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD" --username sa --password Passw0rd --table INVOICE_POD_SAP --target-dir /user/landing -m 1;
+
+
+
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD" --username sa --password Passw0rd --table INVOICE_POD_SAP --hive-import --create-hive-table --hive-table cod.invoice_pod_sap --warehouse-dir /user/landing --hive-overwrite -m 1;
+
+
+
+
+
+sqoop list-databases --connect jdbc:mysql://10.157.255.109:3306 --username testuser --password password
+
+sqoop list-databases --connect jdbc:mysql://Server.snads.com:3306 --username testuser --password password
+
+sqoop list-databases --connect jdbc:mysql://10.20.30.3:3306 --username testuser --password password
+
+
+sqoop list-databases --connect jdbc:mysql://10.20.30.3:3306 --username rnmtest --password rnmtest
+
+
+sqoop import-all-tables --connect jdbc:mysql://10.20.30.3:3306/employees --username rnmtest --password rnmtest --hive-import --create-hive-table --hive-database employees --warehouse-dir /user/landing --hive-overwrite -m 1;
+
+
+
+
+
+zbdsajam4lit0l_21f1cff07a064d1ea2e2d80e3f068910-web_secgroup-oi52nltpvgnz (af29423b-1da4-4b85-a013-4b6e8c6c208b) 
+
+
+https://outlook.office365.com/owa/TechMahindra.com/
+
+
+sqoop import --connect "jdbc:sqlserver://10.128.26.237:1433;database=COD_Main" --username sa --password Passw0rd --table Decan_details --hive-import --create-hive-table --hive-table cod_main.decan_details --warehouse-dir /user/landing --hive-overwrite -m 1 --verbose;
+
+
+
+26707 -- Process ID
+
+ls -lh /tmp/sqoop_import_log_12_dec_17;
+sudo kill -9 26707
+
+
+
+sqoop list-databases --connect jdbc:sqlserver://10.128.104.150:1433 --username SMAR --password SMAR
+
+
+sqoop list-databases --connect "jdbc:oracle:thin:@//10.128.104.151:1521" --username "CSL_ISOM" --password "cslisom"
+
+
+
+sqoop list-tables --connect "jdbc:oracle:thin:<<database>>/<<username>>@10.128.104.151:1521:udc.ds.dtvops.net" --username "CSL_ISOM" --password "cslisom"
